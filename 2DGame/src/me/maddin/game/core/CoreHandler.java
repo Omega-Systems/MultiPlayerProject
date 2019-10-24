@@ -3,6 +3,7 @@ package me.maddin.game.core;
 import java.awt.Dimension;
 import java.io.File;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
@@ -37,8 +38,7 @@ public class CoreHandler {
 		frame.setSize(400, 400);
 		JGameComponent jGameComponent = new JGameComponent();
 		frame.add(jGameComponent);
-		jGameComponent.setFocusable(true);
-		jGameComponent.addKeyListener(new KeyListener());
+		frame.setIconImage(new ImageIcon(EntityHandler.getEnitityRessourceFile()+ "/Barrel.png").getImage());
 		frame.setFocusable(true);
 		frame.setFocusableWindowState(true);
 		frame.setVisible(true);
