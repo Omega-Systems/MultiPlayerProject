@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.io.File;
 
 import javax.swing.JFrame;
+import javax.swing.WindowConstants;
 
 import me.maddin.game.Utility.FileManager;
 import me.maddin.game.Utility.Vector2D;
@@ -32,9 +33,20 @@ public class CoreHandler {
 		player = new Player(new Vector2D(0, 0), new Vector2Df(5, 5), 20, "Ibims");
 		
 		frame = new JFrame("Ibims");
+		frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		frame.setSize(400, 400);
-		frame.add(new JGameComponent());
+		JGameComponent jGameComponent = new JGameComponent();
+		frame.add(jGameComponent);
+		jGameComponent.setFocusable(true);
+		jGameComponent.addKeyListener(new KeyListener());
+		frame.setFocusable(true);
+		frame.setFocusableWindowState(true);
 		frame.setVisible(true);
+		frame.requestFocus();
+	}
+	
+	public static void updateFrame() {
+		frame.repaint();
 	}
 	
 	public static File ressourceFile;
@@ -58,4 +70,7 @@ public class CoreHandler {
 		player.setCurrentChunk(pos);
 	}
 	
+	public static Player getMainPlayer() {
+		return player;
+	}
 }
