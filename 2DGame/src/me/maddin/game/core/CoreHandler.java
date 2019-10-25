@@ -1,10 +1,14 @@
 package me.maddin.game.core;
 
 import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
 import java.io.File;
 
 import javax.swing.ImageIcon;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.KeyStroke;
 import javax.swing.WindowConstants;
 
 import me.maddin.game.Utility.FileManager;
@@ -38,9 +42,23 @@ public class CoreHandler {
 		frame.setSize(400, 400);
 		JGameComponent jGameComponent = new JGameComponent();
 		frame.add(jGameComponent);
+		
+		int MASK = Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
+		
+		jGameComponent.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke(KeyEvent.VK_W, MASK), "moveUp");
+		jGameComponent.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke(KeyEvent.VK_W, MASK), "moveDown");
+		jGameComponent.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke(KeyEvent.VK_W, MASK), "moveLeft");
+		jGameComponent.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke(KeyEvent.VK_W, MASK), "moveRight");
+		
+		jGameComponent.getActionMap().put("moveUp", ActionsHandler.moveUp);
+		jGameComponent.getActionMap().put("moveLeft", ActionsHandler.moveLeft);
+		jGameComponent.getActionMap().put("moveDown", ActionsHandler.moveDown);
+		jGameComponent.getActionMap().put("moveRight", ActionsHandler.moveRight);
+		
 		frame.setIconImage(new ImageIcon(EntityHandler.getEnitityRessourceFile()+ "/Barrel.png").getImage());
 		frame.setFocusable(true);
 		frame.setFocusableWindowState(true);
+		frame.pack();
 		frame.setVisible(true);
 		frame.requestFocus();
 	}
