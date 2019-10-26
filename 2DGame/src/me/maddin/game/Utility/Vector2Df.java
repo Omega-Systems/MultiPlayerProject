@@ -22,6 +22,11 @@ public class Vector2Df implements Cloneable, Serializable{
 		this.y = y;		
 	}
 	
+	public Vector2Df(Vector2D vector) {
+		this.x = vector.x;
+		this.y = vector.y;	
+	}
+
 	public void divide(Vector2Df vector2d) {
 		this.x /= vector2d.x;
 		this.y /= vector2d.y;
@@ -49,9 +54,10 @@ public class Vector2Df implements Cloneable, Serializable{
 		return new Vector2Df(this);
 	}
 	
-	public void add(Vector2Df vector2Df) {
+	public Vector2Df add(Vector2Df vector2Df) {
 		this.x+=vector2Df.x;
 		this.y+=vector2Df.y;
+		return this;
 	}
 	
 	public void add(float x, float y) {
@@ -65,7 +71,30 @@ public class Vector2Df implements Cloneable, Serializable{
 	}
 	
 	public void multiply(float x, float y) {
-		this.x+=x;
-		this.y+=y;
+		this.x*=x;
+		this.y*=y;
+	}
+	
+	public Vector2Df multiply(float i) {
+		this.x*=i;
+		this.y*=i;
+		return this;
+	}
+	
+	public void lerp(Vector2D vector2d, float alpha)
+	{
+	    this.x = (x + alpha * (vector2d.x - this.x));
+	    this.y = (y + alpha * (vector2d.y - this.y));
+	}
+	
+	public void lerp(float x, float y, float alpha)
+	{
+	    this.x = (this.x + alpha * (x - this.x));
+	    this.y = (this.y + alpha * (y - this.y));
+	}
+	
+	@Override
+	public String toString() {
+		return "Vector: x=" + this.x +", y=" +this.y;
 	}
 }

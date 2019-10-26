@@ -8,6 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
 import me.maddin.game.Utility.FileManager;
+import me.maddin.game.Utility.Scheduler;
 import me.maddin.game.Utility.Vector2D;
 import me.maddin.game.Utility.Vector2Df;
 import me.maddin.game.core.backgroundtile.BackgroundTileHandler;
@@ -47,6 +48,14 @@ public class CoreHandler {
 		frame.setSize(400, 400);
 		frame.setVisible(true);
 		frame.requestFocus();
+		
+		Scheduler.runTaskRepeating(new Runnable() {
+			
+			@Override
+			public void run() {
+				CoreHandler.updateFrame();
+			}
+		}, 10, 100);
 	}
 	
 	public static void updateFrame() {

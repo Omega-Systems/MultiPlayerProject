@@ -11,6 +11,7 @@ public abstract class Entity {
 	public Entity(Vector2D chunkPos, Vector2Df pos) {
 		this.chunkpos = chunkPos;
 		this.position = pos;
+		this.velocity = new Vector2Df(0, 0);
 		updateChunk();
 		this.health = maxhealth;
 		
@@ -20,12 +21,15 @@ public abstract class Entity {
 	public Entity(Vector2D chunkPos, Vector2Df pos, int health) {
 		this.chunkpos = chunkPos;
 		this.position = pos;
+		this.velocity = new Vector2Df(0, 0);
 		updateChunk();
 		if(health > 1)
 			this.health = health;
 		
 		EntityHandler.registerEntity(this);
 	}
+	
+	private Vector2Df velocity;
 	
 	private int maxhealth;
 	private int health;
@@ -55,6 +59,19 @@ public abstract class Entity {
 		this.health-=damage;
 	}
 	
+	public Vector2Df getVelocity() {
+		return this.velocity;
+	}
+	
+	public void setVelocity(Vector2Df velocity) {
+		if(velocity!=null) {
+			this.velocity = velocity.clone();
+			if(!velocity.equals(new Vector2Df(0, 0))) {
+				EntityHandler.registerMovingEntity(this);
+			}
+		}
+	}
+	
 	public Vector2D getCurrentChunk() {
 		return this.chunkpos.clone();
 	}
@@ -63,17 +80,20 @@ public abstract class Entity {
 		this.chunkpos = chunk.clone();
 	}
 	
+	
+	/*
 	public void move(Vector2Df velocity) {
 		position.add(velocity);
 		updateChunk();
 	}
+	*/
 	
 	public void setPosition(Vector2Df position) {
 		this.position = position.clone();
 	}
 	
 	public Vector2Df getPosition() {
-		return this.position.clone();
+		return this.position;
 	}
 	
 	private void onDeath() {

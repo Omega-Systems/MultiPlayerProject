@@ -65,8 +65,25 @@ public class Vector2D implements Cloneable, Serializable{
 	}
 	
 	public void multiply(int x, int y) {
-		this.x+=x;
-		this.y+=y;
+		this.x*=x;
+		this.y*=y;
 	}
 	
+	public Vector2D multiply(int i) {
+		this.x*=i;
+		this.y*=i;
+		return this;
+	}
+	
+	public void lerp(Vector2D vector2d, float alpha)
+	{
+	    this.x =  (int) (x + alpha * (vector2d.x - this.x));
+	    this.y =  (int) (y + alpha * (vector2d.y - this.y));
+	}
+	
+	public void lerp(int x, int y, float alpha)
+	{
+	    this.x =  (int) (this.x + alpha * (x - this.x));
+	    this.y =  (int) (this.y + alpha * (y - this.y));
+	}
 }

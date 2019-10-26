@@ -38,8 +38,7 @@ public class ActionsHandler {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			CoreHandler.getMainPlayer().move(new Vector2Df(0, -1));
-			CoreHandler.updateFrame();
+			CoreHandler.getMainPlayer().setVelocity(new Vector2Df(0, -1));
 		}
 	};
 	
@@ -52,8 +51,7 @@ public class ActionsHandler {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			CoreHandler.getMainPlayer().move(new Vector2Df(0, 1));
-			CoreHandler.updateFrame();
+			CoreHandler.getMainPlayer().setVelocity(new Vector2Df(0, 1));
 		}
 	};
 	
@@ -66,8 +64,7 @@ public class ActionsHandler {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			CoreHandler.getMainPlayer().move(new Vector2Df(1, 0));
-			CoreHandler.updateFrame();
+			CoreHandler.getMainPlayer().setVelocity(new Vector2Df(1, 0));
 		}
 	};
 	
@@ -80,8 +77,7 @@ public class ActionsHandler {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			CoreHandler.getMainPlayer().move(new Vector2Df(-1, 0));
-			CoreHandler.updateFrame();
+			CoreHandler.getMainPlayer().setVelocity(new Vector2Df(-1, 0));
 		}
 	};
 	
