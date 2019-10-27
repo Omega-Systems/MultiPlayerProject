@@ -31,8 +31,9 @@ public class CoreHandler {
 		
 		BackgroundTileHandler.init();
 		EntityHandler.init();
+		Worldhandler.init();
 		
-		player = new Player(new Vector2D(0, 0), new Vector2Df(5, 5), 20, "Ibims");
+		player = new Player(new Vector2Df(5, 5), 20, "Ibims");
 		
 		frame = new JFrame("Ibims");
 		frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -55,7 +56,15 @@ public class CoreHandler {
 			public void run() {
 				CoreHandler.updateFrame();
 			}
-		}, 10, 100);
+		}, 10, 33);
+		
+		Scheduler.runTaskRepeating(new Runnable() {
+			
+			@Override
+			public void run() {
+				BackgroundTileHandler.createBackgroundImage();
+			}
+		}, 2, 33);
 	}
 	
 	public static void updateFrame() {
@@ -63,10 +72,6 @@ public class CoreHandler {
 	}
 	
 	public static File ressourceFile;
-	
-	public static Vector2D getCurrentChunkPos() {
-		return player.getCurrentChunk().clone();
-	}
 	
 	public static Vector2D getFrameSize() {
 		Dimension dimension = frame.getSize();
@@ -79,8 +84,8 @@ public class CoreHandler {
 		return tilemapsize.clone();
 	}
 	
-	public static void setCurrentChunk(Vector2D pos) {
-		player.setCurrentChunk(pos);
+	public static Vector2Df getCamOffset() {
+		return player.getPosition().clone().add(new Vector2Df(getFrameSize()).multiply(-0.5f));
 	}
 	
 	public static Player getMainPlayer() {

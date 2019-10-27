@@ -29,6 +29,7 @@ public class EntityHandler {
 			public void run() {
 				for(Entity entity : movingEntities) {
 					entity.setPosition(entity.getPosition().clone().add(entity.getVelocity().clone().multiply(0.01f)));
+					entity.setVelocity(entity.getVelocity().clone().multiply(0.99f));
 				}
 			}
 		}, 10, 10);
@@ -40,7 +41,6 @@ public class EntityHandler {
 		}
 		if(!movingEntities.contains(entity)) {
 			movingEntities.add(entity);
-			System.out.println("MovingEntity Registered!");
 		}
 	}
 	
@@ -65,7 +65,6 @@ public class EntityHandler {
 		entitySize.multiply(3, 3);
 		
 		for(Entity entity : registeredEntities) {
-			if(entity.getCurrentChunk().equals(CoreHandler.getCurrentChunkPos())) {
 				/*
 				Image image = (BufferedImage) entity.getImage();
 				double locationX = image.getWidth(null) / 2;
@@ -75,8 +74,7 @@ public class EntityHandler {
 				g2d.drawImage(op.filter((BufferedImage) entity.getImage(), null), (int) entity.getPosition().x*tilesize.x, (int) entity.getPosition().y*tilesize.y, tilesize.x, tilesize.y, null);
 				*/
 				
-				g2d.drawImage(entity.getImage(), (int)(entity.getPosition().x*tilesize.x), (int) (entity.getPosition().y*tilesize.y), entitySize.x, entitySize.y, null);
-			}
+				g2d.drawImage(entity.getImage(), (int)((entity.getPosition().x+CoreHandler.getCamOffset().x)*tilesize.x), (int) ((entity.getPosition().y+CoreHandler.getCamOffset().y)*tilesize.y), entitySize.x, entitySize.y, null);
 		}
 	}
 	

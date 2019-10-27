@@ -2,27 +2,21 @@ package me.maddin.game.entity;
 
 import java.awt.Image;
 
-import me.maddin.game.Utility.Vector2D;
 import me.maddin.game.Utility.Vector2Df;
-import me.maddin.game.core.CoreHandler;
 
 public abstract class Entity {
 
-	public Entity(Vector2D chunkPos, Vector2Df pos) {
-		this.chunkpos = chunkPos;
+	public Entity(Vector2Df pos) {
 		this.position = pos;
 		this.velocity = new Vector2Df(0, 0);
-		updateChunk();
 		this.health = maxhealth;
 		
 		EntityHandler.registerEntity(this);
 	}
 	
-	public Entity(Vector2D chunkPos, Vector2Df pos, int health) {
-		this.chunkpos = chunkPos;
+	public Entity(Vector2Df pos, int health) {
 		this.position = pos;
 		this.velocity = new Vector2Df(0, 0);
-		updateChunk();
 		if(health > 1)
 			this.health = health;
 		
@@ -37,7 +31,6 @@ public abstract class Entity {
 	private String name;
 	
 	private Vector2Df position;
-	private Vector2D chunkpos;
 	
 	public void setHealth(int health) {
 		this.health = health;
@@ -72,15 +65,6 @@ public abstract class Entity {
 		}
 	}
 	
-	public Vector2D getCurrentChunk() {
-		return this.chunkpos.clone();
-	}
-	
-	public void setCurrentChunk(Vector2D chunk) {
-		this.chunkpos = chunk.clone();
-	}
-	
-	
 	/*
 	public void move(Vector2Df velocity) {
 		position.add(velocity);
@@ -101,18 +85,6 @@ public abstract class Entity {
 	}
 	
 	public abstract Image getImage();
-	
-	private void updateChunk() {
-		if(position.x<0) {
-			chunkpos.x-=1;
-		} else if (position.x > CoreHandler.getTileMapSize().x) {
-			chunkpos.x+=1;
-		}else if (position.y<0) {
-			chunkpos.y-=1;
-		}else if (position.y > CoreHandler.getTileMapSize().y) {
-			chunkpos.y+=1;
-		}
-	}
 	
 	public String getCustomName() {
 		return this.name;

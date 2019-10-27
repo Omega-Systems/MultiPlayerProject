@@ -22,6 +22,11 @@ public class Vector2D implements Cloneable, Serializable{
 		this.y = y;		
 	}
 	
+	public Vector2D(Vector2Df vector) {
+		this.x = (int) vector.x;
+		this.y = (int) vector.y;	
+	}
+
 	public void divide(Vector2D vector2d) {
 		this.x /= vector2d.x;
 		this.y /= vector2d.y;
@@ -49,9 +54,10 @@ public class Vector2D implements Cloneable, Serializable{
 		return new Vector2D(this);
 	}
 	
-	public void add(Vector2D vector2D) {
+	public Vector2D add(Vector2D vector2D) {
 		this.x+=vector2D.x;
 		this.y+=vector2D.y;
+		return this;
 	}
 	
 	public void add(int x, int y) {
