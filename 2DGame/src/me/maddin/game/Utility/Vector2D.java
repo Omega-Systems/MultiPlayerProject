@@ -1,5 +1,6 @@
 package me.maddin.game.Utility;
 
+import java.awt.Dimension;
 import java.io.Serializable;
 
 public class Vector2D implements Cloneable, Serializable{
@@ -22,6 +23,11 @@ public class Vector2D implements Cloneable, Serializable{
 		this.y = y;		
 	}
 	
+	public Vector2D(Vector2Df vector) {
+		this.x = (int) vector.x;
+		this.y = (int) vector.y;	
+	}
+
 	public void divide(Vector2D vector2d) {
 		this.x /= vector2d.x;
 		this.y /= vector2d.y;
@@ -49,9 +55,10 @@ public class Vector2D implements Cloneable, Serializable{
 		return new Vector2D(this);
 	}
 	
-	public void add(Vector2D vector2D) {
+	public Vector2D add(Vector2D vector2D) {
 		this.x+=vector2D.x;
 		this.y+=vector2D.y;
+		return this;
 	}
 	
 	public void add(int x, int y) {
@@ -65,8 +72,29 @@ public class Vector2D implements Cloneable, Serializable{
 	}
 	
 	public void multiply(int x, int y) {
-		this.x+=x;
-		this.y+=y;
+		this.x*=x;
+		this.y*=y;
 	}
 	
+	public Vector2D multiply(int i) {
+		this.x*=i;
+		this.y*=i;
+		return this;
+	}
+	
+	public void lerp(Vector2D vector2d, float alpha)
+	{
+	    this.x =  (int) (x + alpha * (vector2d.x - this.x));
+	    this.y =  (int) (y + alpha * (vector2d.y - this.y));
+	}
+	
+	public void lerp(int x, int y, float alpha)
+	{
+	    this.x =  (int) (this.x + alpha * (x - this.x));
+	    this.y =  (int) (this.y + alpha * (y - this.y));
+	}
+	
+	public Dimension toDimension() {
+		return new Dimension(x, y);
+	}
 }

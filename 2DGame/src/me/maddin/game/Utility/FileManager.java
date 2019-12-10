@@ -1,23 +1,17 @@
 package me.maddin.game.Utility;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
 
-import me.maddin.game.main.MainClass;
+import javax.imageio.ImageIO;
 
 public class FileManager {
 
-	public static File jarfile;
-	
-	public static void load() {
-		try {
-			jarfile = new File(MainClass.class.getProtectionDomain().getCodeSource().getLocation().toURI());
-		} catch (URISyntaxException e) {
-			// 
-			e.printStackTrace();
-		}
-	}
+	public static final File jarfile = new File(FileManager.class.getProtectionDomain().getCodeSource().getLocation().getFile());
+	public static final File ressourceFile = new File(jarfile, "ressources");
+	public static final File entityRessourceFile = new File(ressourceFile, "entities");
+	public static final File tileRessourceFile = new File(ressourceFile, "tiles");
 	
 	public static File getFile(String filename) {
 		File file = new File(jarfile, filename);
@@ -64,5 +58,24 @@ public class FileManager {
 			file.mkdirs();
 		}
 		return file;
+	}
+	
+	public static BufferedImage getImage(String path) {
+		try {
+			return ImageIO.read(new File(ressourceFile, path));
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
+		return null;
+	}
+	public static BufferedImage getImage(File parent, String path) {
+		try {
+			return ImageIO.read(new File(parent, path));
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
+		return null;
 	}
 }
