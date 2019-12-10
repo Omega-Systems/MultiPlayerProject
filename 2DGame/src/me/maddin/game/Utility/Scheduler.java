@@ -21,6 +21,11 @@ public class Scheduler {
 		scheduler.scheduleWithFixedDelay(runnable, initialdelay, periodicaldelay, TimeUnit.MILLISECONDS);
 	}
 	
+	public static void runTaskRepeatingFast(Runnable runnable, long initialdelay, long periodicaldelay) {
+		
+		scheduler.scheduleWithFixedDelay(runnable, initialdelay, periodicaldelay, TimeUnit.NANOSECONDS);
+	}
+	
 	public static void stop() {
 		scheduler.shutdownNow();
 	}

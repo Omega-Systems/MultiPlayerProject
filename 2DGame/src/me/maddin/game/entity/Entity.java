@@ -1,26 +1,62 @@
 package me.maddin.game.entity;
 
-import java.awt.Image;
+import java.awt.image.BufferedImage;
 
 import me.maddin.game.Utility.Vector2Df;
+import me.maddin.game.core.Tickable;
+import me.maddin.game.main.World;
 
-public abstract class Entity {
+public abstract class Entity implements Tickable{
 
+	public Entity(Vector2Df pos, World world) {
+		this.position = pos;
+		this.velocity = new Vector2Df(0, 0);
+		this.health = maxhealth;
+		
+		this.world = world;
+		
+		world.registerEntity(this);
+		Tickable.registerTickable(this);
+	}
+	
+	public Entity(Vector2Df pos, int health, World world) {
+		this.position = pos;
+		this.velocity = new Vector2Df(0, 0);
+		if(health > 0) {
+			this.maxhealth=health;
+			this.health = health;
+		} else {
+			this.health=100;
+		}
+		this.world = world;
+		
+		world.registerEntity(this);
+		Tickable.registerTickable(this);
+	}
+	
 	public Entity(Vector2Df pos) {
 		this.position = pos;
 		this.velocity = new Vector2Df(0, 0);
 		this.health = maxhealth;
 		
-		EntityHandler.registerEntity(this);
+		this.world = World.getMainWorld();
+		
+		world.registerEntity(this);
+		Tickable.registerTickable(this);
 	}
 	
 	public Entity(Vector2Df pos, int health) {
 		this.position = pos;
 		this.velocity = new Vector2Df(0, 0);
-		if(health > 1)
+		if(health > 0) {
 			this.health = health;
+		} else {
+			this.health=maxhealth;
+		}
+		this.world = World.getMainWorld();
 		
-		EntityHandler.registerEntity(this);
+		world.registerEntity(this);
+		Tickable.registerTickable(this);
 	}
 	
 	private Vector2Df velocity;
@@ -29,8 +65,11 @@ public abstract class Entity {
 	private int health;
 	
 	private String name;
+	private boolean nameVisible;
 	
 	private Vector2Df position;
+	
+	private World world;
 	
 	public void setHealth(int health) {
 		this.health = health;
@@ -58,36 +97,39 @@ public abstract class Entity {
 	
 	public void setVelocity(Vector2Df velocity) {
 		if(velocity!=null) {
-			this.velocity = velocity.clone();
-			if(!velocity.equals(new Vector2Df(0, 0))) {
-				EntityHandler.registerMovingEntity(this);
-			}
+			this.velocity = velocity;
 		}
 	}
 	
-	/*
-	public void move(Vector2Df velocity) {
-		position.add(velocity);
-		updateChunk();
-	}
-	*/
-	
 	public void setPosition(Vector2Df position) {
-		this.position = position.clone();
+		this.position = position;
 	}
 	
 	public Vector2Df getPosition() {
 		return this.position;
 	}
 	
-	private void onDeath() {
-		EntityHandler.unregisterEntity(this);
+	public void move(Vector2Df relativePos) {
+		getPosition().add(relativePos);
 	}
 	
-	public abstract Image getImage();
+	private void onDeath() {
+		world.unregisterEntity(this);
+		Tickable.unregisterTickable(this);
+	}
+	
+	public abstract BufferedImage getImage();
 	
 	public String getCustomName() {
 		return this.name;
+	}
+	
+	public boolean nameVisible() {
+		return nameVisible;
+	}
+	
+	public void setNameVisible(boolean visible) {
+		this.nameVisible = visible;
 	}
 	
 	public void setName(String name) {
@@ -96,5 +138,15 @@ public abstract class Entity {
 	
 	public float getRoatation() {
 		return 0;
+	}
+	
+	@Override
+	public void tick(float deltaT) {
+		move(velocity.clone().multiply(deltaT));
+		velocity.multiply(Math.min(1/(deltaT*1000), 0.99f));
+	}
+	
+	public World getCurrentWorld() {
+		return world;
 	}
 }

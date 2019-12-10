@@ -1,5 +1,6 @@
 package me.maddin.game.core;
 
+import java.awt.GraphicsEnvironment;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
@@ -9,27 +10,44 @@ import javax.swing.JComponent;
 import javax.swing.KeyStroke;
 
 import me.maddin.game.Utility.Vector2Df;
-import me.maddin.game.framework.JGameComponent;
+import me.maddin.game.entity.Player;
+import me.maddin.game.main.Game;
+import me.maddin.game.main.MainClass;
 
 public class ActionsHandler {
 	
-	public static void init(JGameComponent jGameComponent) {
-		jGameComponent.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke('w'), "moveUp");
-		jGameComponent.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke('s'), "moveDown");
-		jGameComponent.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke('a'), "moveLeft");
-		jGameComponent.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke('d'), "moveRight");
+	public ActionsHandler(JComponent keyComponent) {		
+		init(keyComponent);
+		System.out.println("KeyListener registered!");
+	}
+	
+	private void init(JComponent keyComponent) {
+		keyComponent.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke('w'), "moveUp");
+		keyComponent.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke('s'), "moveDown");
+		keyComponent.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke('a'), "moveLeft");
+		keyComponent.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke('d'), "moveRight");
 		
-		jGameComponent.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "quit");
+		keyComponent.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_F10, KeyEvent.ALT_DOWN_MASK), "increaseFPS");
+		keyComponent.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_F9, KeyEvent.ALT_DOWN_MASK), "decreaseFPS");
+		keyComponent.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("F11"), "fullscreen");
+		keyComponent.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "quit");
 		
-		jGameComponent.getActionMap().put("quit", ActionsHandler.quit);
+		keyComponent.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_E, 0), "pickUp");
 		
-		jGameComponent.getActionMap().put("moveUp", ActionsHandler.moveUp);
-		jGameComponent.getActionMap().put("moveLeft", ActionsHandler.moveLeft);
-		jGameComponent.getActionMap().put("moveDown", ActionsHandler.moveDown);
-		jGameComponent.getActionMap().put("moveRight", ActionsHandler.moveRight);
+		keyComponent.getActionMap().put("quit", quit);
+		keyComponent.getActionMap().put("fullscreen", fullscreen);
+		keyComponent.getActionMap().put("increaseFPS", increaseFPS);
+		keyComponent.getActionMap().put("decreaseFPS", decreaseFPS);
+		
+		keyComponent.getActionMap().put("pickUp", pickUp);
+		
+		keyComponent.getActionMap().put("moveUp", moveUp);
+		keyComponent.getActionMap().put("moveLeft", moveLeft);
+		keyComponent.getActionMap().put("moveDown", moveDown);
+		keyComponent.getActionMap().put("moveRight", moveRight);
 	}
 
-	public static Action moveUp = new AbstractAction() {
+	public Action moveUp = new AbstractAction() {
 		
 		/**
 		 * 
@@ -38,11 +56,11 @@ public class ActionsHandler {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			CoreHandler.getMainPlayer().setVelocity(new Vector2Df(0, -1));
+			MainClass.getGame().getPlayer().setVelocity(new Vector2Df(0, -1));
 		}
 	};
 	
-	public static Action moveDown = new AbstractAction() {
+	private Action moveDown = new AbstractAction() {
 		
 		/**
 		 * 
@@ -51,11 +69,11 @@ public class ActionsHandler {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			CoreHandler.getMainPlayer().setVelocity(new Vector2Df(0, 1));
+			MainClass.getGame().getPlayer().setVelocity(new Vector2Df(0, 1));
 		}
 	};
 	
-	public static Action moveRight = new AbstractAction() {
+	private Action moveRight = new AbstractAction() {
 		
 		/**
 		 * 
@@ -64,11 +82,11 @@ public class ActionsHandler {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			CoreHandler.getMainPlayer().setVelocity(new Vector2Df(1, 0));
+			MainClass.getGame().getPlayer().setVelocity(new Vector2Df(1, 0));
 		}
 	};
 	
-	public static Action moveLeft = new AbstractAction() {
+	private Action moveLeft = new AbstractAction() {
 		
 		/**
 		 * 
@@ -77,11 +95,11 @@ public class ActionsHandler {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			CoreHandler.getMainPlayer().setVelocity(new Vector2Df(-1, 0));
+			MainClass.getGame().getPlayer().setVelocity(new Vector2Df(-1, 0));
 		}
 	};
 	
-	public static Action quit = new AbstractAction() {
+	private Action quit = new AbstractAction() {
 		
 		/**
 		 * 
@@ -94,4 +112,62 @@ public class ActionsHandler {
 		}
 	};
 	
+	private Action fullscreen = new AbstractAction() {
+		
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -4700153653587840284L;
+		private boolean toggle = true;
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if(toggle) {
+				GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0].setFullScreenWindow(MainClass.getGame().frame);
+			} else {
+				GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0].setFullScreenWindow(null);
+			}
+			toggle = !toggle;
+		}
+	};
+	
+	private Action increaseFPS = new AbstractAction() {
+		
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -4700153653587840284L;
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			Game.targetFPS+=2;
+		}
+	};
+	
+	private Action decreaseFPS = new AbstractAction() {
+		
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -4700153653587840284L;
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			Game.targetFPS-=2;
+		}
+	};
+	
+	private Action pickUp = new AbstractAction() {
+		
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -4700153653587840284L;
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			Player player = MainClass.getGame().getPlayer();
+			player.getCurrentWorld().getTile(player.getPosition().clone().add(0.5f, 0.5f).toVector2d()).setForeground(false);
+		}
+	};
 }

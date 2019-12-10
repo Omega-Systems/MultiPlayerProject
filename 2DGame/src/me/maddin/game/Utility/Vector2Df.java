@@ -60,9 +60,10 @@ public class Vector2Df implements Cloneable, Serializable{
 		return this;
 	}
 	
-	public void add(float x, float y) {
+	public Vector2Df add(float x, float y) {
 		this.x+=x;
 		this.y+=y;
+		return this;
 	}
 	
 	public void multiply(Vector2D vector2d) {
@@ -96,5 +97,9 @@ public class Vector2Df implements Cloneable, Serializable{
 	@Override
 	public String toString() {
 		return "Vector: x=" + this.x +", y=" +this.y;
+	}
+	
+	public Vector2D toVector2d() {
+		return new Vector2D(this);
 	}
 }

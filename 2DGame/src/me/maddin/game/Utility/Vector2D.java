@@ -1,5 +1,6 @@
 package me.maddin.game.Utility;
 
+import java.awt.Dimension;
 import java.io.Serializable;
 
 public class Vector2D implements Cloneable, Serializable{
@@ -91,5 +92,9 @@ public class Vector2D implements Cloneable, Serializable{
 	{
 	    this.x =  (int) (this.x + alpha * (x - this.x));
 	    this.y =  (int) (this.y + alpha * (y - this.y));
+	}
+	
+	public Dimension toDimension() {
+		return new Dimension(x, y);
 	}
 }
