@@ -16,6 +16,8 @@ import me.maddin.game.main.MainClass;
 
 public class ActionsHandler {
 	
+	public static final int speed = 10;
+	
 	public ActionsHandler(JComponent keyComponent) {		
 		init(keyComponent);
 		System.out.println("KeyListener registered!");
@@ -56,7 +58,7 @@ public class ActionsHandler {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			MainClass.getGame().getPlayer().setVelocity(new Vector2Df(0, -1));
+			MainClass.getGame().getPlayer().setVelocity(new Vector2Df(0, -speed));
 		}
 	};
 	
@@ -69,7 +71,7 @@ public class ActionsHandler {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			MainClass.getGame().getPlayer().setVelocity(new Vector2Df(0, 1));
+			MainClass.getGame().getPlayer().setVelocity(new Vector2Df(0, speed));
 		}
 	};
 	
@@ -82,7 +84,7 @@ public class ActionsHandler {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			MainClass.getGame().getPlayer().setVelocity(new Vector2Df(1, 0));
+			MainClass.getGame().getPlayer().setVelocity(new Vector2Df(speed, 0));
 		}
 	};
 	
@@ -95,7 +97,7 @@ public class ActionsHandler {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			MainClass.getGame().getPlayer().setVelocity(new Vector2Df(-1, 0));
+			MainClass.getGame().getPlayer().setVelocity(new Vector2Df(-speed, 0));
 		}
 	};
 	
@@ -167,7 +169,7 @@ public class ActionsHandler {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			Player player = MainClass.getGame().getPlayer();
-			player.getCurrentWorld().getTile(player.getPosition().clone().add(0.5f, 0.5f).toVector2d()).setForeground(false);
+			player.getCurrentWorld().getTile(player.getPosition().clone().add(0.5f, 0.5f).toVector2d()).setForegroundImage(null);
 		}
 	};
 }

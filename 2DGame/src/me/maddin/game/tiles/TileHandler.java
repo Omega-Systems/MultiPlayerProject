@@ -2,11 +2,9 @@ package me.maddin.game.tiles;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
-
-import javax.imageio.ImageIO;
 
 import me.maddin.game.Utility.FileManager;
 import me.maddin.game.main.MainClass;
@@ -14,26 +12,31 @@ import me.maddin.game.main.World;
 
 public class TileHandler {
 	
-	private static HashMap<Integer, BufferedImage> backgroundTilePalette;
+	private static ArrayList<ArrayList<BufferedImage>> backgroundTilePalette;
 	private static HashMap<Integer, BufferedImage> foreGroundTilePallette;
 
 	private static Random random;
 	
 	public static void init() {		
-		backgroundTilePalette = new HashMap<Integer, BufferedImage>();
+		backgroundTilePalette = new ArrayList<ArrayList<BufferedImage>>();
 		foreGroundTilePallette = new HashMap<Integer, BufferedImage>();
 		
-		try {
-			backgroundTilePalette.put(0, ImageIO.read(FileManager.getFile(FileManager.tileRessourceFile, "0.png")));
-			backgroundTilePalette.put(1, ImageIO.read(FileManager.getFile(FileManager.tileRessourceFile, "1.png")));
-			backgroundTilePalette.put(2, ImageIO.read(FileManager.getFile(FileManager.tileRessourceFile, "2.png")));
-			
-			foreGroundTilePallette.put(0, FileManager.getImage(FileManager.tileRessourceFile, "BigStone.png"));
-			foreGroundTilePallette.put(1, FileManager.getImage(FileManager.tileRessourceFile, "OakTree.png"));
-			foreGroundTilePallette.put(2, FileManager.getImage(FileManager.tileRessourceFile, "SmallStone.png"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		//GrassTileset
+		ArrayList<BufferedImage> grassPalette = new ArrayList<BufferedImage>();
+		grassPalette.add(FileManager.getImage(FileManager.tileRessourceFile, "BG_Grass_0.png"));
+		grassPalette.add(FileManager.getImage(FileManager.tileRessourceFile, "BG_Grass_1.png"));
+		grassPalette.add(FileManager.getImage(FileManager.tileRessourceFile, "BG_Grass_2.png"));
+		
+		//StoneTileset
+		ArrayList<BufferedImage> stonePalette = new ArrayList<BufferedImage>();
+		stonePalette.add(FileManager.getImage(FileManager.tileRessourceFile, "BG_Stone_0.png"));
+		
+		backgroundTilePalette.add(grassPalette);
+		backgroundTilePalette.add(stonePalette);
+		
+		foreGroundTilePallette.put(0, FileManager.getImage(FileManager.tileRessourceFile, "BigStone.png"));
+		foreGroundTilePallette.put(1, FileManager.getImage(FileManager.tileRessourceFile, "OakTree.png"));
+		foreGroundTilePallette.put(2, FileManager.getImage(FileManager.tileRessourceFile, "SmallStone.png"));
 		
 		random = new Random();
 	}
@@ -59,15 +62,26 @@ public class TileHandler {
 		return backgroundTilePalette.size();
 	}
 	
-	private static Tile getNewBackgroundTile() {
-		return new Tile(backgroundTilePalette.get(random.nextInt(backgroundTilePalette.size())));
+	private static Tile getNewBackgroundTile(int biome) {
+		return new Tile(backgroundTilePalette.get(biome).get(random.nextInt(backgroundTilePalette.get(biome).size())));
 	}
 	
-	public static Tile getNewTile() {
+	private static Tile getNewTileIntern(int biome) {
+		return new Tile(backgroundTilePalette.get(biome).get(random.nextInt(backgroundTilePalette.get(biome).size())), foreGroundTilePallette.get(random.nextInt(foreGroundTilePallette.size())));
+	}
+	
+	public static Tile getNewTile(int distance) {
+		int biome =0;
+		if(distance>0) {
+			if(random.nextInt(distance)>10) {
+				biome = 1;
+			}
+		}
+		
 		if(random.nextInt(10)==0) {
-			return new Tile(backgroundTilePalette.get(random.nextInt(backgroundTilePalette.size())), foreGroundTilePallette.get(random.nextInt(foreGroundTilePallette.size())));
+			return getNewTileIntern(biome);
 		} else {
-			return getNewBackgroundTile();
+			return getNewBackgroundTile(biome);
 		}
 	}
 }

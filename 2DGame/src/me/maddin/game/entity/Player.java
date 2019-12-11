@@ -23,9 +23,6 @@ public class Player extends Entity {
 
 	@Override
 	public BufferedImage getImage() {
-		if(playerImage == null) {
-			System.out.println("Image Null");
-		}
 		return playerImage;
 	}
 

@@ -6,12 +6,14 @@ public class Tile {
 
 	private BufferedImage backgroundImage;
 	private BufferedImage foregroundImage;
+	private boolean isinFront;
 	
 	private boolean hasForeground;
 	
 	public Tile(BufferedImage image) {
 		this.backgroundImage = image;
 		hasForeground=false;
+		isinFront=false;
 	}
 	public Tile(BufferedImage backgroundImage, BufferedImage foregroundImage) {
 		this.backgroundImage = backgroundImage;
@@ -25,13 +27,23 @@ public class Tile {
 	
 	public BufferedImage getForegroundImage() {
 		return foregroundImage;
+	}	
+	public void setBackgroundImage(BufferedImage backgroundImage) {
+		this.backgroundImage = backgroundImage;
 	}
-	
+	public void setForegroundImage(BufferedImage foregroundImage) {
+		if(foregroundImage==null) {
+			hasForeground=false;
+		}
+		this.foregroundImage = foregroundImage;
+	}
 	public boolean hasForeground() {
 		return hasForeground;
 	}
-	
-	public void setForeground(boolean vivible) {
+	public void setForegroundVisible(boolean vivible) {
 		this.hasForeground=vivible;
+	}
+	public boolean isInFrontOffEntities() {
+		return isinFront;
 	}
 }
