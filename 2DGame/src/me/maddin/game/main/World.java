@@ -28,11 +28,11 @@ public class World {
 	public Tile getTile(int x, int y) {
 		if(blocks.containsKey(x)) {
 			if(!blocks.get(x).containsKey(y)) {
-				blocks.get(x).put(y, TileHandler.getNewTile());
+				blocks.get(x).put(y, TileHandler.getNewTile((int) Math.sqrt(x*x+(y*y))));
 			}
 		} else {
 			blocks.put(x, new HashMap<Integer, Tile>());
-			blocks.get(x).put(y, TileHandler.getNewTile());
+			blocks.get(x).put(y, TileHandler.getNewTile((int) Math.sqrt(x*x+(y*y))));
 		}
 		return blocks.get(x).get(y);
 	}

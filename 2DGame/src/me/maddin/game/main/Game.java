@@ -52,7 +52,7 @@ public class Game {
 	private void initGame() {
 		TileHandler.init();
 		mainWorld = new World();
-		player = new Player(new Vector2Df(10, 10), 100, "Ibims", 0);
+		player = new Player(new Vector2Df(0, 0), 100, "Ibims", 0);
 		Tickable.createTickingThread(50);
 	}
 	

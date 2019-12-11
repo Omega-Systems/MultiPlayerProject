@@ -3,15 +3,30 @@ package me.maddin.game.Utility;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 
 import javax.imageio.ImageIO;
 
 public class FileManager {
 
-	public static final File jarfile = new File(FileManager.class.getProtectionDomain().getCodeSource().getLocation().getFile());
-	public static final File ressourceFile = new File(jarfile, "ressources");
-	public static final File entityRessourceFile = new File(ressourceFile, "entities");
-	public static final File tileRessourceFile = new File(ressourceFile, "tiles");
+	public static File jarfile;
+	public static File ressourceFile;
+	public static File entityRessourceFile;
+	public static File tileRessourceFile;
+	
+	public static void init() {
+		try {
+			jarfile = new File(URLDecoder.decode(FileManager.class.getProtectionDomain().getCodeSource().getLocation().getPath(), "UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		ressourceFile = new File(jarfile, "ressources");
+		entityRessourceFile = new File(ressourceFile, "entities");
+		tileRessourceFile = new File(ressourceFile, "tiles");
+	}
 	
 	public static File getFile(String filename) {
 		File file = new File(jarfile, filename);
@@ -73,6 +88,7 @@ public class FileManager {
 		try {
 			return ImageIO.read(new File(parent, path));
 		} catch (IOException e) {
+			System.out.println("Couldn't read file: "+path);
 			e.printStackTrace();
 			System.exit(1);
 		}
