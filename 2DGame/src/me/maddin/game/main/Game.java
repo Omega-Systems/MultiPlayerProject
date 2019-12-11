@@ -13,6 +13,7 @@ import me.maddin.game.core.Tickable;
 import me.maddin.game.entity.EntityHandler;
 import me.maddin.game.entity.Player;
 import me.maddin.game.tiles.TileHandler;
+import me.maddin.game.world.World;
 
 public class Game {
 	
