@@ -3,7 +3,7 @@ package me.maddin.game.entity;
 import java.awt.Graphics2D;
 
 import me.maddin.game.main.MainClass;
-import me.maddin.game.main.World;
+import me.maddin.game.world.World;
 
 public class EntityHandler {
 	

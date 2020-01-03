@@ -16,7 +16,7 @@ import me.maddin.game.main.MainClass;
 
 public class ActionsHandler {
 	
-	public static final int speed = 10;
+	public static final int speed = 3;
 	
 	public ActionsHandler(JComponent keyComponent) {		
 		init(keyComponent);

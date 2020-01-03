@@ -8,7 +8,7 @@ import java.util.Random;
 
 import me.maddin.game.Utility.FileManager;
 import me.maddin.game.main.MainClass;
-import me.maddin.game.main.World;
+import me.maddin.game.world.World;
 
 public class TileHandler {
 	
@@ -23,20 +23,20 @@ public class TileHandler {
 		
 		//GrassTileset
 		ArrayList<BufferedImage> grassPalette = new ArrayList<BufferedImage>();
-		grassPalette.add(FileManager.getImage(FileManager.tileRessourceFile, "BG_Grass_0.png"));
-		grassPalette.add(FileManager.getImage(FileManager.tileRessourceFile, "BG_Grass_1.png"));
-		grassPalette.add(FileManager.getImage(FileManager.tileRessourceFile, "BG_Grass_2.png"));
+		grassPalette.add(FileManager.getImage(FileManager.tileRessourceFile, "BG/Grass_0.png"));
+		grassPalette.add(FileManager.getImage(FileManager.tileRessourceFile, "BG/Grass_1.png"));
+		grassPalette.add(FileManager.getImage(FileManager.tileRessourceFile, "BG/Grass_2.png"));
 		
 		//StoneTileset
 		ArrayList<BufferedImage> stonePalette = new ArrayList<BufferedImage>();
-		stonePalette.add(FileManager.getImage(FileManager.tileRessourceFile, "BG_Stone_0.png"));
+		stonePalette.add(FileManager.getImage(FileManager.tileRessourceFile, "BG/Stone_0.png"));
 		
 		backgroundTilePalette.add(grassPalette);
 		backgroundTilePalette.add(stonePalette);
 		
-		foreGroundTilePallette.put(0, FileManager.getImage(FileManager.tileRessourceFile, "BigStone.png"));
-		foreGroundTilePallette.put(1, FileManager.getImage(FileManager.tileRessourceFile, "OakTree.png"));
-		foreGroundTilePallette.put(2, FileManager.getImage(FileManager.tileRessourceFile, "SmallStone.png"));
+		foreGroundTilePallette.put(0, FileManager.getImage(FileManager.tileRessourceFile, "FG/BigStone.png"));
+		foreGroundTilePallette.put(1, FileManager.getImage(FileManager.tileRessourceFile, "FG/OakTree.png"));
+		foreGroundTilePallette.put(2, FileManager.getImage(FileManager.tileRessourceFile, "FG/SmallStone.png"));
 		
 		random = new Random();
 	}

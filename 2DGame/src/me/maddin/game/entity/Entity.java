@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 
 import me.maddin.game.Utility.Vector2Df;
 import me.maddin.game.core.Tickable;
-import me.maddin.game.main.World;
+import me.maddin.game.world.World;
 
 public abstract class Entity implements Tickable{
 

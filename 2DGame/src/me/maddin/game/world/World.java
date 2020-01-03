@@ -1,4 +1,4 @@
-package me.maddin.game.main;
+package me.maddin.game.world;
 
 import java.util.ArrayList;
 import java.util.HashMap;
