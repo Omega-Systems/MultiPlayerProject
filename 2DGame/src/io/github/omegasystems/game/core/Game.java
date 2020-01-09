@@ -1,19 +1,25 @@
-package me.maddin.game.main;
+package io.github.omegasystems.game.core;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
 
-import me.maddin.game.Utility.FileManager;
-import me.maddin.game.Utility.Scheduler;
-import me.maddin.game.Utility.Vector2D;
-import me.maddin.game.Utility.Vector2Df;
-import me.maddin.game.core.ActionsHandler;
-import me.maddin.game.core.Tickable;
-import me.maddin.game.entity.EntityHandler;
-import me.maddin.game.entity.Player;
-import me.maddin.game.tiles.TileHandler;
-import me.maddin.game.world.World;
+import io.github.omegasystems.game.Utility.FileManager;
+import io.github.omegasystems.game.Utility.Scheduler;
+import io.github.omegasystems.game.Utility.Vector2D;
+import io.github.omegasystems.game.Utility.Vector2Df;
+import io.github.omegasystems.game.entity.EntityHandler;
+import io.github.omegasystems.game.entity.Player;
+import io.github.omegasystems.game.gui.GUIHandler;
+import io.github.omegasystems.game.gui.inventory.Inventory;
+import io.github.omegasystems.game.gui.inventory.InventoryHandler;
+import io.github.omegasystems.game.gui.inventory.Ressource;
+import io.github.omegasystems.game.main.MainClass;
+import io.github.omegasystems.game.tiles.TileHandler;
+import io.github.omegasystems.game.tiles.TileRegistry;
+import io.github.omegasystems.game.world.World;
 
 public class Game {
 	
@@ -25,11 +31,14 @@ public class Game {
 	public JFrame frame;
 	
 	private int currentFps;
-	private int fpsCount;
+	private int fpsCount;	
 	
 	public static int targetFPS = 60;
 	
+	public static BufferedImage playerImage;
+	
 	public Game(String title, Vector2D size) {
+		playerImage = FileManager.getImage(FileManager.entityRessourceFile, "Barrel.png");
 		initGame();
 		initFrame(title, size);	
 	}
@@ -51,9 +60,14 @@ public class Game {
 	}
 	
 	private void initGame() {
-		TileHandler.init();
-		mainWorld = new World();
-		player = new Player(new Vector2Df(0, 0), 100, "Ibims", 0);
+		Ressource.loadRessources();
+		GUIHandler.init();
+		TileRegistry.registerTemplates();
+		
+		InventoryHandler.setDrawnInventory(new Inventory(4, 7, "Ibims, eins Inventar!"), new Vector2Df(0, 0));
+		
+		mainWorld = new World(21);
+		player = new Player(new Vector2Df(0, 0), 100, "Ibims", mainWorld);
 		Tickable.createTickingThread(50);
 	}
 	
@@ -65,11 +79,24 @@ public class Game {
 		int screenWidth = frame.getWidth();
 		int screenHeight = frame.getHeight();
 		mainWorld.setCamOffset(new Vector2Df(player.getPosition().x-(screenWidth/2/MainClass.TILESIZE), player.getPosition().y-(screenHeight/2/MainClass.TILESIZE)));
-		g2d.translate(-32, -32);
-		TileHandler.render(g2d, screenWidth, screenHeight, mainWorld);
+		//TODO: Berechnung Offset mit screenDimension not working properly
+		float offsetX =  (mainWorld.getCamOffsetX()*MainClass.TILESIZE) % MainClass.TILESIZE-screenWidth%(MainClass.TILESIZE/2);
+		float offsetY = (mainWorld.getCamOffsetY()*MainClass.TILESIZE) % MainClass.TILESIZE-screenHeight%(MainClass.TILESIZE/2);
+		
+		g2d.translate(-offsetX, -offsetY);
+		g2d.setColor(Color.WHITE);
+		
+		TileHandler.renderBG(g2d, screenWidth, screenHeight, mainWorld);
 		EntityHandler.renderEntities(g2d, screenWidth, screenHeight, mainWorld);
-		g2d.translate(32, 32);
+		TileHandler.renderFG(g2d, screenWidth, screenHeight, mainWorld);
+
+		g2d.translate(offsetX, offsetY);
+		
+		GUIHandler.render(g2d, screenWidth, screenHeight);
+		
 		g2d.drawString("FPS: " + currentFps + ", Target FPS: " + targetFPS, 20, 20);
+		g2d.drawString("OffsetX: "+offsetX+", OffsetY: "+offsetY, 20, 40);
+		fpsCount++;
 	}
 	
 	private void createRenderingTask() {
@@ -80,12 +107,15 @@ public class Game {
 			
 			@Override
 			public void run() {
-				if(lasttime+delay<System.nanoTime()) {
+				if(targetFPS>0) {
 					delay = 1000000000/targetFPS;
+				} else {
+					delay=0;
+				}
+				if(lasttime+delay<System.nanoTime()) {
 					currentFps = (int) (1000000000/(System.nanoTime()-lasttime));
 					frame.repaint();
 					lasttime = System.nanoTime();
-					fpsCount++;
 				}				
 			}
 		}, 10, 50);

@@ -1,24 +1,25 @@
-package me.maddin.game.entity;
+package io.github.omegasystems.game.entity;
 
 import java.awt.image.BufferedImage;
-import java.io.File;
 
-import me.maddin.game.Utility.FileManager;
-import me.maddin.game.Utility.Vector2Df;
+import io.github.omegasystems.game.Utility.Vector2Df;
+import io.github.omegasystems.game.core.Game;
+import io.github.omegasystems.game.gui.inventory.ItemStack;
+import io.github.omegasystems.game.tiles.Tile;
+import io.github.omegasystems.game.world.World;
 
 public class Player extends Entity {
 
 	private BufferedImage playerImage;
+	private World world;
+	private ItemStack itemStack;
 	
-	public Player(Vector2Df pos, int health, String name, int x) {
+	public Player(Vector2Df pos, int health, String name, World world) {
 		super(pos, health);
-		if(!new File(FileManager.entityRessourceFile, "Barrel.png").exists()) {
-			System.out.println("File doesnt exist");
-		}
-		playerImage = FileManager.getImage(FileManager.entityRessourceFile, "Barrel.png");
-		System.out.println("Player initialized");
+		playerImage = Game.playerImage;
 		this.setName(name);
 		this.setNameVisible(true);
+		this.world=world;
 	}
 
 	@Override
@@ -26,6 +27,18 @@ public class Player extends Entity {
 		return playerImage;
 	}
 
+	public Tile getTileStandingOn() {
+		return world.getTile(getPosition().toVector2d());
+	}
+	
+	public ItemStack getItemInHand() {
+		return itemStack;
+	}
+	
+	public void setItemInHand(ItemStack itemStack) {
+		this.itemStack=itemStack;
+	}
+	
 	/*
 	@Override
 	public void tick(float deltaT) {

@@ -1,4 +1,4 @@
-package me.maddin.game.core;
+package io.github.omegasystems.game.core;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;

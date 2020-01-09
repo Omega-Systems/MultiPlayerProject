@@ -112,4 +112,10 @@ public class Vector2Df implements Cloneable, Serializable{
 	public Vector2D toVector2d() {
 		return new Vector2D(this);
 	}
+
+	public Vector2Df subtract(float f, float g) {
+		x-=f;
+		y-=g;
+		return this;
+	}
 }

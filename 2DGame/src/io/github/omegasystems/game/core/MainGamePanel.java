@@ -1,9 +1,11 @@
-package me.maddin.game.main;
+package io.github.omegasystems.game.core;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 import javax.swing.JComponent;
+
+import io.github.omegasystems.game.main.MainClass;
 
 public class MainGamePanel extends JComponent {
 

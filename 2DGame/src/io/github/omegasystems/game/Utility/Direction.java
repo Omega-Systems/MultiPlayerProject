@@ -1,4 +1,4 @@
-package me.maddin.game.Utility;
+package io.github.omegasystems.game.Utility;
 
 public class Direction {
 

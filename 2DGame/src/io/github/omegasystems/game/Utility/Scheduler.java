@@ -1,4 +1,4 @@
-package me.maddin.game.Utility;
+package io.github.omegasystems.game.Utility;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
