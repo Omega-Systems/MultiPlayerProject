@@ -1,4 +1,4 @@
-package me.maddin.game.Utility;
+package io.github.omegasystems.game.Utility;
 
 import java.io.Serializable;
 
@@ -80,6 +80,16 @@ public class Vector2Df implements Cloneable, Serializable{
 		this.x*=i;
 		this.y*=i;
 		return this;
+	}
+	
+	public float distanceTo(Vector2Df vec) {
+		 return distanceTo(vec.x, vec.y);
+	}
+	
+	public float distanceTo(float x, float y) {
+		float ax = this.x-x;
+		float ay = this.y-y;
+		return (float) Math.sqrt(ax*ax+ay*ay);
 	}
 	
 	public void lerp(Vector2D vector2d, float alpha)
