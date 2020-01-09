@@ -1,8 +1,8 @@
-package me.maddin.game.core;
+package io.github.omegasystems.game.core;
 
 import java.util.ArrayList;
 
-import me.maddin.game.Utility.Scheduler;
+import io.github.omegasystems.game.Utility.Scheduler;
 
 public interface Tickable {
 

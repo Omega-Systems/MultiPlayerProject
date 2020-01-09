@@ -1,49 +1,51 @@
-package me.maddin.game.tiles;
+package io.github.omegasystems.game.tiles;
 
 import java.awt.image.BufferedImage;
+
+import io.github.omegasystems.game.Utility.Vector2D;
 
 public class Tile {
 
 	private BufferedImage backgroundImage;
-	private BufferedImage foregroundImage;
-	private boolean isinFront;
+	private ForeGroundTile foreGroundTile;
+
+	private Vector2D pos;
 	
 	private boolean hasForeground;
 	
 	public Tile(BufferedImage image) {
 		this.backgroundImage = image;
 		hasForeground=false;
-		isinFront=false;
-	}
-	public Tile(BufferedImage backgroundImage, BufferedImage foregroundImage) {
-		this.backgroundImage = backgroundImage;
-		this.foregroundImage = foregroundImage;
-		hasForeground=true;
 	}
 	
 	public BufferedImage getBackgroundImage() {
 		return backgroundImage;
 	}
 	
-	public BufferedImage getForegroundImage() {
-		return foregroundImage;
-	}	
-	public void setBackgroundImage(BufferedImage backgroundImage) {
+
+	public void setBackgroundImage(BufferedImage backgroundImage, Vector2D pos) {
 		this.backgroundImage = backgroundImage;
+		this.pos = pos;
 	}
-	public void setForegroundImage(BufferedImage foregroundImage) {
-		if(foregroundImage==null) {
-			hasForeground=false;
-		}
-		this.foregroundImage = foregroundImage;
-	}
+	
 	public boolean hasForeground() {
 		return hasForeground;
 	}
-	public void setForegroundVisible(boolean vivible) {
-		this.hasForeground=vivible;
+	
+	public void setFGTile(ForeGroundTile tile) {
+		this.foreGroundTile = tile;
+		if(tile!=null) {
+			this.hasForeground = true;
+		} else {
+			hasForeground=false;
+		}
 	}
-	public boolean isInFrontOffEntities() {
-		return isinFront;
+	
+	public ForeGroundTile getForeGroundTile() {
+		return foreGroundTile;
+	}
+	
+	public Vector2D getPos() {
+		return pos.clone();
 	}
 }

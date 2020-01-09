@@ -1,8 +1,9 @@
-package me.maddin.game.main;
+package io.github.omegasystems.game.main;
 
-import me.maddin.game.Utility.FileManager;
-import me.maddin.game.Utility.Scheduler;
-import me.maddin.game.Utility.Vector2D;
+import io.github.omegasystems.game.Utility.FileManager;
+import io.github.omegasystems.game.Utility.Scheduler;
+import io.github.omegasystems.game.Utility.Vector2D;
+import io.github.omegasystems.game.core.Game;
 
 public class MainClass {
 

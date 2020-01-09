@@ -1,4 +1,4 @@
-package me.maddin.game.Utility;
+package io.github.omegasystems.game.Utility;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -14,18 +14,19 @@ public class FileManager {
 	public static File ressourceFile;
 	public static File entityRessourceFile;
 	public static File tileRessourceFile;
+	public static File invRessourceFile;
 	
 	public static void init() {
 		try {
 			jarfile = new File(URLDecoder.decode(FileManager.class.getProtectionDomain().getCodeSource().getLocation().getPath(), "UTF-8"));
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		ressourceFile = new File(jarfile, "ressources");
 		entityRessourceFile = new File(ressourceFile, "entities");
 		tileRessourceFile = new File(ressourceFile, "tiles");
+		invRessourceFile = new File(ressourceFile, "inv");
 	}
 	
 	public static File getFile(String filename) {

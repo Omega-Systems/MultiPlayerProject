@@ -1,4 +1,4 @@
-package me.maddin.game.Utility;
+package io.github.omegasystems.game.Utility;
 
 import java.awt.Dimension;
 import java.io.Serializable;

@@ -1,4 +1,4 @@
-package me.maddin.game.core;
+package io.github.omegasystems.game.core;
 
 import java.awt.GraphicsEnvironment;
 import java.awt.event.ActionEvent;
@@ -9,10 +9,12 @@ import javax.swing.Action;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
 
-import me.maddin.game.Utility.Vector2Df;
-import me.maddin.game.entity.Player;
-import me.maddin.game.main.Game;
-import me.maddin.game.main.MainClass;
+import io.github.omegasystems.game.Utility.Vector2Df;
+import io.github.omegasystems.game.entity.Player;
+import io.github.omegasystems.game.gui.inventory.Inventory;
+import io.github.omegasystems.game.gui.inventory.InventoryHandler;
+import io.github.omegasystems.game.main.MainClass;
+import io.github.omegasystems.game.tiles.InventoryForegroundTile;
 
 public class ActionsHandler {
 	
@@ -24,10 +26,10 @@ public class ActionsHandler {
 	}
 	
 	private void init(JComponent keyComponent) {
-		keyComponent.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke('w'), "moveUp");
-		keyComponent.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke('s'), "moveDown");
-		keyComponent.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke('a'), "moveLeft");
-		keyComponent.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke('d'), "moveRight");
+		keyComponent.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_W, 0), "moveUp");
+		keyComponent.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_S, 0), "moveDown");
+		keyComponent.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_A, 0), "moveLeft");
+		keyComponent.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_D, 0), "moveRight");
 		
 		keyComponent.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_F10, KeyEvent.ALT_DOWN_MASK), "increaseFPS");
 		keyComponent.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_F9, KeyEvent.ALT_DOWN_MASK), "decreaseFPS");
@@ -35,6 +37,7 @@ public class ActionsHandler {
 		keyComponent.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "quit");
 		
 		keyComponent.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_E, 0), "pickUp");
+		keyComponent.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_Q, 0), "place");
 		
 		keyComponent.getActionMap().put("quit", quit);
 		keyComponent.getActionMap().put("fullscreen", fullscreen);
@@ -42,6 +45,7 @@ public class ActionsHandler {
 		keyComponent.getActionMap().put("decreaseFPS", decreaseFPS);
 		
 		keyComponent.getActionMap().put("pickUp", pickUp);
+		keyComponent.getActionMap().put("place", debugPlaceInv);
 		
 		keyComponent.getActionMap().put("moveUp", moveUp);
 		keyComponent.getActionMap().put("moveLeft", moveLeft);
@@ -59,6 +63,25 @@ public class ActionsHandler {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			MainClass.getGame().getPlayer().setVelocity(new Vector2Df(0, -speed));
+		}
+	};
+	
+	private Action debugPlaceInv = new AbstractAction() {
+		
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -4700153653587840281L;
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			Player player = MainClass.getGame().getPlayer();
+			if(!player.getTileStandingOn().hasForeground()) {
+				player.getTileStandingOn().setFGTile(new InventoryForegroundTile(Game.playerImage, false, new Inventory(5, 2)));
+			} else if (player.getTileStandingOn().getForeGroundTile() instanceof InventoryForegroundTile) {
+				InventoryForegroundTile inventoryForegroundTile = (InventoryForegroundTile) player.getTileStandingOn().getForeGroundTile();
+				InventoryHandler.setDrawnInventory(inventoryForegroundTile.getInventory(), player.getPosition());
+			}
 		}
 	};
 	
@@ -166,10 +189,12 @@ public class ActionsHandler {
 		 */
 		private static final long serialVersionUID = -4700153653587840284L;
 
+		//TODO: Playerpos not relative to tilePos in positive directions (&negative?)
+		
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			Player player = MainClass.getGame().getPlayer();
-			player.getCurrentWorld().getTile(player.getPosition().clone().add(0.5f, 0.5f).toVector2d()).setForegroundImage(null);
+			player.getCurrentWorld().getTile(player.getPosition().clone().subtract(0.5f, 0.5f).toVector2d()).setFGTile(null);
 		}
 	};
 }

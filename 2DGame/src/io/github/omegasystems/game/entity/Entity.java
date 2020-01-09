@@ -1,10 +1,10 @@
-package me.maddin.game.entity;
+package io.github.omegasystems.game.entity;
 
 import java.awt.image.BufferedImage;
 
-import me.maddin.game.Utility.Vector2Df;
-import me.maddin.game.core.Tickable;
-import me.maddin.game.world.World;
+import io.github.omegasystems.game.Utility.Vector2Df;
+import io.github.omegasystems.game.core.Tickable;
+import io.github.omegasystems.game.world.World;
 
 public abstract class Entity implements Tickable{
 
