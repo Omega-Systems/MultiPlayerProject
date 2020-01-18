@@ -53,6 +53,7 @@ public class Game {
 		frame.add(mainGamePanel);
 		//InputMapping.registerKeys(mainGamePanel);
 		new ActionsHandler(mainGamePanel);
+		new MouseInput(mainGamePanel);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
 		frame.setIconImage(FileManager.getImage(FileManager.entityRessourceFile, "Barrel.png"));

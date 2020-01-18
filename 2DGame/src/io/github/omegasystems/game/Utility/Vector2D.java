@@ -97,4 +97,8 @@ public class Vector2D implements Cloneable, Serializable{
 	public Dimension toDimension() {
 		return new Dimension(x, y);
 	}
+	
+	public Vector2Df asVector2Df() {
+		return new Vector2Df(x, y);
+	}
 }

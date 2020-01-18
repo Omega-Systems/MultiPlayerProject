@@ -11,10 +11,7 @@ import javax.swing.KeyStroke;
 
 import io.github.omegasystems.game.Utility.Vector2Df;
 import io.github.omegasystems.game.entity.Player;
-import io.github.omegasystems.game.gui.inventory.Inventory;
-import io.github.omegasystems.game.gui.inventory.InventoryHandler;
 import io.github.omegasystems.game.main.MainClass;
-import io.github.omegasystems.game.tiles.InventoryForegroundTile;
 
 public class ActionsHandler {
 	
@@ -37,7 +34,6 @@ public class ActionsHandler {
 		keyComponent.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "quit");
 		
 		keyComponent.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_E, 0), "pickUp");
-		keyComponent.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_Q, 0), "place");
 		
 		keyComponent.getActionMap().put("quit", quit);
 		keyComponent.getActionMap().put("fullscreen", fullscreen);
@@ -45,7 +41,6 @@ public class ActionsHandler {
 		keyComponent.getActionMap().put("decreaseFPS", decreaseFPS);
 		
 		keyComponent.getActionMap().put("pickUp", pickUp);
-		keyComponent.getActionMap().put("place", debugPlaceInv);
 		
 		keyComponent.getActionMap().put("moveUp", moveUp);
 		keyComponent.getActionMap().put("moveLeft", moveLeft);
@@ -63,25 +58,6 @@ public class ActionsHandler {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			MainClass.getGame().getPlayer().setVelocity(new Vector2Df(0, -speed));
-		}
-	};
-	
-	private Action debugPlaceInv = new AbstractAction() {
-		
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = -4700153653587840281L;
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			Player player = MainClass.getGame().getPlayer();
-			if(!player.getTileStandingOn().hasForeground()) {
-				player.getTileStandingOn().setFGTile(new InventoryForegroundTile(Game.playerImage, false, new Inventory(5, 2)));
-			} else if (player.getTileStandingOn().getForeGroundTile() instanceof InventoryForegroundTile) {
-				InventoryForegroundTile inventoryForegroundTile = (InventoryForegroundTile) player.getTileStandingOn().getForeGroundTile();
-				InventoryHandler.setDrawnInventory(inventoryForegroundTile.getInventory(), player.getPosition());
-			}
 		}
 	};
 	

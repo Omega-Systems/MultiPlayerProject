@@ -27,6 +27,7 @@ public class Ressource {
 	public static void loadRessources() {
 		BufferedImage[] textures = {FileManager.getImage(FileManager.invRessourceFile, "pebble1.png"), FileManager.getImage(FileManager.invRessourceFile, "pebble2.png"), FileManager.getImage(FileManager.invRessourceFile, "pebble3.png")};
 		stone = new Ressource(textures);
+		wood = new Ressource(null);
 	}	
 	
 }

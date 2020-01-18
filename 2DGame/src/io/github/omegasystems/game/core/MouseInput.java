@@ -30,13 +30,23 @@ public class MouseInput implements MouseListener{
 	@Override
 	public void mousePressed(MouseEvent event) {
 		Player player = MainClass.getGame().getPlayer();
+		//TODO: TilePos Berechnung
 		Tile tile = player.getTileStandingOn();
 		if(tile.hasForeground()) {
 			tile.getForeGroundTile().onClick(new TileClickEvent(player, event.getButton()));
 		} else if (player.getItemInHand() instanceof BlockItemStack) {
+			System.out.println("Debug1");
 			tile.setFGTile(((BlockItemStack)player.getItemInHand()).getNewForeGroundTile(tile.getPos()));
-		} {
-			
+			if(player.getItemInHand().getAmount()<2) {
+				player.setItemInHand(null);
+			} else {
+				player.getItemInHand().setAmount(player.getItemInHand().getAmount()-1);
+			}
+		}
+		if(player.getItemInHand()!=null) {
+			if(player.getItemInHand() instanceof BlockItemStack) {
+				System.out.println("Debug1");
+			}
 		}
 	}
 
@@ -45,8 +55,8 @@ public class MouseInput implements MouseListener{
 		
 	}
 
-	public static void registerMouseListener(JComponent component) {
-		component.addMouseListener(new MouseInput());
+	public MouseInput(JComponent component) {
+		component.addMouseListener(this);
 	}
 	
 }

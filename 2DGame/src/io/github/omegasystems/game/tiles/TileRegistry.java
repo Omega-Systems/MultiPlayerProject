@@ -6,6 +6,8 @@ import java.util.Map;
 
 import io.github.omegasystems.game.Utility.FileManager;
 import io.github.omegasystems.game.Utility.Vector2D;
+import io.github.omegasystems.game.gui.inventory.BlockItemStack;
+import io.github.omegasystems.game.gui.inventory.Inventory;
 import io.github.omegasystems.game.gui.inventory.ItemStack;
 import io.github.omegasystems.game.gui.inventory.Ressource;
 import io.github.omegasystems.game.world.Biome;
@@ -43,6 +45,7 @@ public class TileRegistry {
 	public static BufferedImage stoneBGTex = null;
 	public static BufferedImage smallStoneFGTex = null;
 	public static BufferedImage bigStoneFGTex = null;
+	public static BufferedImage barrelFGTex = null;
 	
 	static final TileTemplate MOUNTAIN_TEMPLATE_EMPTY = new TileTemplate() {
 		
@@ -58,7 +61,7 @@ public class TileRegistry {
 		@Override
 		public Tile getNewTile(Vector2D pos) {
 			Tile tile = new Tile(stoneBGTex);
-			ForeGroundTile fgTile = new HarvestableForegroundTile(new ItemStack(Ressource.stone, 2), smallStoneFGTex, tile, false);
+			ForeGroundTile fgTile = new HarvestableForegroundTile(new BlockItemStack(Ressource.wood, 2, BARREL_TEMPLATE), smallStoneFGTex, tile, false, pos);
 			tile.setFGTile(fgTile);
 			return tile;
 		}
@@ -69,9 +72,17 @@ public class TileRegistry {
 		@Override
 		public Tile getNewTile(Vector2D pos) {
 			Tile tile = new Tile(stoneBGTex);
-			ForeGroundTile fgTile = new HarvestableForegroundTile(new ItemStack(Ressource.stone, 4), bigStoneFGTex, tile, false);
+			ForeGroundTile fgTile = new HarvestableForegroundTile(new ItemStack(Ressource.stone, 4), bigStoneFGTex, tile, false, pos);
 			tile.setFGTile(fgTile);
 			return tile;
+		}
+	};
+	
+	public static final ForeGroundTileTemplate BARREL_TEMPLATE = new ForeGroundTileTemplate() {
+		
+		@Override
+		public ForeGroundTile getNewForeGroundTile(Vector2D pos) {
+			return new InventoryForegroundTile(barrelFGTex, false, new Inventory(5, 2), pos);
 		}
 	};
 	
@@ -84,6 +95,9 @@ public class TileRegistry {
 		}
 		if(bigStoneFGTex==null) {
 			bigStoneFGTex = FileManager.getImage(FileManager.tileRessourceFile, "FG/BigStone.png");
+		}
+		if(barrelFGTex==null) {
+			barrelFGTex = FileManager.getImage(FileManager.tileRessourceFile, "FG/Barrel.png");
 		}
 		
 		TileRegistry.registerBiome(mountainBiomeID, new Biome());

@@ -16,5 +16,4 @@ public class BlockItemStack extends ItemStack{
 	public ForeGroundTile getNewForeGroundTile(Vector2D pos) {
 		return template.getNewForeGroundTile(pos);
 	}
-	
 }

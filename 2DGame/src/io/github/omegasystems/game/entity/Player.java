@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 
 import io.github.omegasystems.game.Utility.Vector2Df;
 import io.github.omegasystems.game.core.Game;
+import io.github.omegasystems.game.gui.inventory.BlockItemStack;
 import io.github.omegasystems.game.gui.inventory.ItemStack;
 import io.github.omegasystems.game.tiles.Tile;
 import io.github.omegasystems.game.world.World;
@@ -36,7 +37,18 @@ public class Player extends Entity {
 	}
 	
 	public void setItemInHand(ItemStack itemStack) {
+		if(BlockItemStack.class.isInstance(itemStack)) {
+			System.out.println("Debug2");
+		}
+		if(itemStack==null) {
+			System.out.println("Debug4");
+		}
+		System.out.println("Debug5");
 		this.itemStack=itemStack;
+	}
+	
+	public int getMaxStackSize() {
+		return 3000;
 	}
 	
 	/*
