@@ -6,4 +6,3 @@ so please be aware that updates could last very long.
 
 Feel free to give us feedback via The following options
 join our discord server: https://discord.gg/aStGQvU
-or send US an email: martin.suck26@gmail.com
